@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<title>Plan d'Action Personnalisé — Brandon</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --border: rgba(255,255,255,0.07);
+    --gold: #c9a84c;
+    --gold2: #e8c97a;
+    --text: #e8e4dd;
+    --muted: #7a7570;
+    --accent: rgba(201,168,76,0.12);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; background-color: #0a0a0a; }
+  body { background-color: #0a0a0a; color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 300; line-height: 1.7; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+
+  body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E"); pointer-events: none; z-index: 9999; opacity: 0.4; }
+
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 80px 24px 60px; position: relative; overflow: hidden; background-color: #0a0a0a; }
+  .hero::before { content: ''; position: absolute; top: -20%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%); pointer-events: none; }
+
+  .hero-label { font-size: 11px; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 32px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(48px, 10vw, 88px); font-weight: 300; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 8px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.4s; }
+  .hero-title em { font-style: italic; color: var(--gold); }
+  .hero-name { font-family: 'Cormorant Garamond', serif; font-size: clamp(48px, 10vw, 88px); font-weight: 600; line-height: 1.05; letter-spacing: -0.02em; color: var(--gold2); margin-bottom: 40px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.5s; }
+  .hero-sub { font-size: 15px; color: var(--muted); max-width: 480px; line-height: 1.8; border-left: 1px solid var(--gold); padding-left: 20px; opacity: 0; animation: fadeUp 0.8s ease forwards 0.7s; }
+  .hero-date { margin-top: 48px; font-size: 11px; letter-spacing: 0.15em; color: var(--muted); text-transform: uppercase; opacity: 0; animation: fadeUp 0.8s ease forwards 0.9s; }
+
+  .scroll-hint { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0; animation: fadeUp 0.8s ease forwards 1.2s; }
+  .scroll-hint span { font-size: 10px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
+  .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); animation: scrollLine 2s ease-in-out infinite; }
+  @keyframes scrollLine { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+  section { padding: 80px 24px; max-width: 720px; margin: 0 auto; background-color: #0a0a0a; }
+  .section-label { font-size: 10px; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 5vw, 42px); font-weight: 300; line-height: 1.2; margin-bottom: 40px; letter-spacing: -0.01em; }
+  .section-title em { font-style: italic; color: var(--gold); }
+  .divider { width: 100%; height: 1px; background-color: rgba(255,255,255,0.07); }
+
+  .bilan-grid { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .bilan-item { background-color: #111111; padding: 24px; transition: background 0.3s; }
+  .bilan-item:hover { background-color: #161616; }
+  .bilan-item .label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+  .bilan-item p { font-size: 14px; color: var(--text); line-height: 1.7; opacity: 0.85; }
+
+  .obstacles-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); }
+  .obstacle { background-color: #111111; padding: 28px 24px; display: grid; grid-template-columns: 48px 1fr; gap: 20px; align-items: start; transition: background 0.3s; cursor: default; }
+  .obstacle:hover { background-color: #161616; }
+  .obstacle-num { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 300; color: rgba(201,168,76,0.25); line-height: 1; padding-top: 2px; transition: color 0.3s; }
+  .obstacle:hover .obstacle-num { color: var(--gold); }
+  .obstacle-title { font-size: 13px; font-weight: 500; letter-spacing: 0.05em; margin-bottom: 8px; color: var(--text); }
+  .obstacle-desc { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+  .plan-steps { display: flex; flex-direction: column; }
+  .plan-step { padding: 28px 0; border-bottom: 1px solid var(--border); }
+  .plan-step:last-child { border-bottom: none; }
+  .step-header { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 12px; }
+  .step-icon { width: 36px; height: 36px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 14px; }
+  .step-title { font-size: 14px; font-weight: 500; padding-top: 8px; }
+  .step-body { font-size: 13px; color: var(--muted); line-height: 1.7; padding-left: 52px; }
+  .step-sub { font-size: 13px; color: var(--muted); line-height: 1.7; padding-left: 52px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+  .step-tag { display: inline-block; margin-left: 52px; margin-top: 8px; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); background: var(--accent); padding: 4px 10px; }
+
+  .pyramid-section { background-color: #111111; padding: 80px 24px; }
+  .pyramid-inner { max-width: 720px; margin: 0 auto; background-color: #111111; }
+  .pyramid-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); margin-top: 32px; }
+  .pyramid-item { display: grid; grid-template-columns: 28px 1fr; gap: 16px; align-items: start; padding: 20px 24px; transition: background 0.3s; }
+  .pyramid-item.priority { background-color: rgba(201,168,76,0.08); }
+  .pyramid-item.secondary { background-color: #161616; }
+  .pyramid-item.low { background-color: #111111; opacity: 0.6; }
+  .pyramid-rank { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 300; color: var(--gold); line-height: 1; padding-top: 2px; }
+  .pyramid-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+  .pyramid-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  .next-section { padding: 100px 24px; text-align: center; max-width: 600px; margin: 0 auto; }
+  .next-icon { width: 64px; height: 64px; border: 1px solid rgba(201,168,76,0.3); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 32px; font-size: 22px; }
+  .next-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(28px, 5vw, 40px); font-weight: 300; margin-bottom: 24px; line-height: 1.2; }
+  .next-body { font-size: 14px; color: var(--muted); line-height: 1.8; margin-bottom: 40px; }
+  .next-box { border: 1px solid rgba(201,168,76,0.2); background-color: rgba(201,168,76,0.08); padding: 28px; text-align: left; font-size: 14px; line-height: 1.7; color: var(--text); opacity: 0.9; }
+
+  footer { background-color: #0a0a0a; border-top: 1px solid var(--border); padding: 40px 24px; text-align: center; font-size: 11px; letter-spacing: 0.1em; color: var(--muted); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 600px) {
+    html, body { background-color: #0a0a0a; }
+    section { padding: 60px 20px; background-color: #0a0a0a; }
+    .hero { padding: 100px 20px 60px; background-color: #0a0a0a; }
+    .pyramid-section { padding: 60px 20px; background-color: #111111; }
+    .pyramid-inner { background-color: #111111; }
+    .pyramid-item { padding: 18px; grid-template-columns: 22px 1fr; gap: 12px; }
+    .bilan-item { padding: 20px 18px; background-color: #111111; }
+    .obstacle { padding: 22px 18px; grid-template-columns: 36px 1fr; gap: 14px; background-color: #111111; }
+    .obstacle-num { font-size: 28px; }
+    .step-body, .step-sub { padding-left: 0; margin-top: 8px; }
+    .step-tag { margin-left: 0; }
+    .plan-step { padding: 20px 0; }
+    .next-section { padding: 70px 20px; background-color: #0a0a0a; }
+    .next-box { padding: 22px 18px; }
+    footer { background-color: #0a0a0a; }
+  }
+  @media (prefers-color-scheme: dark) { html, body { background-color: #0a0a0a; } }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-label">Bilan · Appel R1 · 22 Mars 2025</div>
+  <div class="hero-title">Plan d'action <em>personnalisé</em></div>
+  <div class="hero-name">Brandon</div>
+  <p class="hero-sub">T'as déjà fait une vraie transformation. Ce plan explique pourquoi la même méthode ne peut plus fonctionner — et ce qu'il faut changer concrètement pour continuer à progresser.</p>
+  <div class="hero-date">Confidentiel · Document personnalisé</div>
+  <div class="scroll-hint"><span>Explorer</span><div class="scroll-line"></div></div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 01 -->
+<section class="reveal">
+  <div class="section-label">01 — Le diagnostic</div>
+  <h2 class="section-title">T'as avancé — c'est <em>exactement</em> le problème</h2>
+
+  <div class="bilan-grid">
+    <div class="bilan-item">
+      <div class="label">Ce que tu as déjà prouvé</div>
+      <p>92 kg → 85 kg avec Body Time. Une vraie transformation, menée jusqu'au bout même pendant une dépression. Tu as la force mentale pour tenir — ça, c'est acquis. En janvier, tu as repris seul, 4 à 5 séances par semaine, avec de la rigueur. Physiquement, ça évolue : les veines reviennent, les jambes se dessinent, les pecs remplissent le t-shirt.</p>
+    </div>
+    <div class="bilan-item">
+      <div class="label">Pourquoi ça coince maintenant</div>
+      <p>Tu fais exactement ce qui a marché la dernière fois — et tu ne comprends pas pourquoi ça n'avance plus aussi vite. La réponse est simple : t'as avancé. Ce qui fonctionne pour un débutant ne fonctionne plus pour toi. Ton corps a besoin d'un stimulus différent, pas plus de la même chose.</p>
+    </div>
+    <div class="bilan-item">
+      <div class="label">L'objectif réel</div>
+      <p>Pas juste perdre du poids. Être athlétique — visible en t-shirt, veines apparentes, ventre plat. Pas écorché. Pour ça, il faut que le gras parte maintenant. Pas en maintenant le statu quo, pas en prenant encore de la masse par-dessus. Sèche en priorité — bien faite, sans perdre le muscle que t'as construit.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 02 -->
+<section class="reveal">
+  <div class="section-label">02 — Ce qui bloque</div>
+  <h2 class="section-title">Les 3 choses à <em>corriger</em> maintenant</h2>
+
+  <div class="obstacles-list">
+
+    <div class="obstacle">
+      <div class="obstacle-num">1</div>
+      <div>
+        <div class="obstacle-title">Une diète figée depuis trop longtemps</div>
+        <p class="obstacle-desc">Tu es resté sur la diète de fin de programme Body Time depuis des mois. Le problème : cette diète était calibrée pour un corps à un moment précis. Ton corps a changé depuis — il pèse moins, il est plus musclé, il dépense différemment. Les calories qui créaient un déficit il y a 6 mois sont peut-être ton maintien aujourd'hui. Et les glucides que tu as réduits (50-60g au lieu de 70g) parce que tu n'as pas le temps de tout manger créent un manque d'énergie qui sabote tes séances.</p>
+      </div>
+    </div>
+
+    <div class="obstacle">
+      <div class="obstacle-num">2</div>
+      <div>
+        <div class="obstacle-title">De l'argent mis au mauvais endroit</div>
+        <p class="obstacle-desc">Créatine, collagène, protéine, ashwagandha, pre-workout — tu investis dans des compléments qui sont le dernier étage de la pyramide, pas les fondations. Tout cet argent mis sur des suppléments qui représentent 5% de l'équation, alors que la base — la diète précise, la structure d'entraînement — n'est pas optimale. C'est l'énergie et l'argent mis au mauvais endroit. Simplifie : garde la protéine si tu n'atteins pas tes apports en protéines. Le reste peut attendre.</p>
+      </div>
+    </div>
+
+    <div class="obstacle">
+      <div class="obstacle-num">3</div>
+      <div>
+        <div class="obstacle-title">Zéro dépense supplémentaire — et ça bloque la sèche</div>
+        <p class="obstacle-desc">Le problème n'est pas que tu ne fais pas de cardio. Le problème, c'est que sans dépense supplémentaire en dehors des séances de muscu, le seul levier pour créer un déficit c'est de manger moins. Et manger moins quand tu es déjà serré sur les glucides et les protéines, c'est rogner sur ce qui protège le muscle. Le cardio classique n'est pas la seule solution — il n'est même pas forcément la meilleure pour toi. Se forcer à faire quelque chose qu'on déteste, ça ne tient jamais sur la durée. Il existe des méthodes pour augmenter la dépense calorique sans que ce soit perçu comme du cardio. C'est ça qu'il faut trouver — quelque chose qui colle à ce que tu es, pas quelque chose que tu vas lâcher au bout de deux semaines.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 03 — PYRAMIDE -->
+<div class="pyramid-section reveal">
+  <div class="pyramid-inner">
+    <div class="section-label">03 — Où mettre ton énergie</div>
+    <h2 class="section-title" style="margin-bottom: 12px;">La pyramide des <em>priorités</em></h2>
+    <p style="font-size: 14px; color: var(--muted); line-height: 1.8; max-width: 560px;">Basée sur le modèle d'Eric Helms. Ce classement dit où concentrer 90% de ton attention — et ce qui ne mérite pas plus de 5%.</p>
+
+    <div class="pyramid-list">
+      <div class="pyramid-item priority">
+        <div class="pyramid-rank">1</div>
+        <div>
+          <div class="pyramid-title">Le déficit calorique — précis et adapté à ton corps maintenant</div>
+          <div class="pyramid-desc">Pas la diète d'il y a 6 mois. Ton vrai maintien calorique aujourd'hui, avec un déficit contrôlé de 300-400 kcal. C'est la seule chose qui fait perdre du gras.</div>
+        </div>
+      </div>
+      <div class="pyramid-item priority">
+        <div class="pyramid-rank">2</div>
+        <div>
+          <div class="pyramid-title">Les protéines — maintenir le muscle pendant la sèche</div>
+          <div class="pyramid-desc">Minimum 2g par kg de poids de corps. Avec 86 kg, ça fait ~170g/jour. Si tu n'arrives pas à l'atteindre avec la bouffe, là la protéine en poudre a du sens.</div>
+        </div>
+      </div>
+      <div class="pyramid-item secondary">
+        <div class="pyramid-rank">3</div>
+        <div>
+          <div class="pyramid-title">L'entraînement restructuré autour de la sèche</div>
+          <div class="pyramid-desc">Volume ajusté, progression des charges maintenue, exercices choisis pour ce qu'ils t'apportent — pas pour la difficulté ou la variété.</div>
+        </div>
+      </div>
+      <div class="pyramid-item secondary">
+        <div class="pyramid-rank">4</div>
+        <div>
+          <div class="pyramid-title">Augmenter la dépense — sans forcément appeler ça du cardio</div>
+          <div class="pyramid-desc">Se forcer à faire quelque chose qu'on déteste ne tient jamais. L'objectif n'est pas de faire du cardio — c'est d'augmenter la dépense calorique. Il existe plusieurs façons d'y arriver. On trouve celle qui te correspond mardi.</div>
+        </div>
+      </div>
+      <div class="pyramid-item low">
+        <div class="pyramid-rank">5</div>
+        <div>
+          <div class="pyramid-title">Les compléments — en dernier, pas en premier</div>
+          <div class="pyramid-desc">Créatine, ashwagandha, collagène, pre-workout : utiles à la marge quand tout le reste est en place. Pas avant.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- 04 — ACTIONS -->
+<section class="reveal">
+  <div class="section-label">04 — Actions concrètes</div>
+  <h2 class="section-title">Ce que tu fais <em>maintenant</em></h2>
+
+  <div class="plan-steps">
+
+    <div class="plan-step">
+      <div class="step-header">
+        <div class="step-icon">📊</div>
+        <div class="step-title">Retrouver ton vrai maintien calorique actuel</div>
+      </div>
+      <div class="step-body">Tracker précisément tout ce que tu manges pendant 7 jours consécutifs — sans rien changer à tes habitudes. En parallèle, te peser chaque matin à jeun et calculer la moyenne de la semaine. Si ton poids est stable, tu es au maintien. Si tu perds légèrement, tu es déjà en déficit. Ce chiffre est la base de tout ce qui suit.</div>
+      <div class="step-sub">Comment tu pèses tes aliments cuits : divise par le coefficient de cuisson. Pour le riz blanc cuit, divise par 2,5 pour retrouver le poids cru. Pour les pâtes cuites, divise par 2,2. Tu notes ce chiffre cru dans MyFitnessPal. Plus besoin d'estimer.</div>
+      <div class="step-tag">Priorité absolue</div>
+    </div>
+
+    <div class="plan-step">
+      <div class="step-header">
+        <div class="step-icon">🥩</div>
+        <div class="step-title">Résoudre le problème des glucides au déjeuner</div>
+      </div>
+      <div class="step-body">Tu n'arrives pas à manger 70g de glucides crus en 20 minutes de pause. Solution : répartir les glucides différemment dans la journée. Si le midi est trop court, augmente les glucides du matin (flocons d'avoine → portion plus grande) et/ou du repas pre-workout. Le total journalier est ce qui compte, pas l'heure à laquelle tu les manges.</div>
+      <div class="step-tag">Cette semaine</div>
+    </div>
+
+    <div class="plan-step">
+      <div class="step-header">
+        <div class="step-icon">💊</div>
+        <div class="step-title">Simplifier les compléments</div>
+      </div>
+      <div class="step-body">Ce que tu gardes si tu veux : la protéine en poudre si tu n'atteins pas les 170g/jour avec l'alimentation. Ce qui peut attendre : créatine, collagène, ashwagandha, pre-workout. L'argent économisé peut aller ailleurs — y compris sur une vraie structure qui fait bouger les chiffres.</div>
+      <div class="step-tag">Économie d'énergie</div>
+    </div>
+
+    <div class="plan-step">
+      <div class="step-header">
+        <div class="step-icon">⚖️</div>
+        <div class="step-title">Lire la balance différemment</div>
+      </div>
+      <div class="step-body">Tu regardes le miroir plutôt que la balance — c'est bien pour la tête, mais pas suffisant pour piloter une sèche. Le poids doit descendre. Pas vite, pas brutalement — mais descendre. Objectif : 300 à 500g par semaine en moyenne. En dessous, le déficit est trop faible. Au-dessus de 1kg, tu risques de perdre du muscle.</div>
+      <div class="step-sub">Si après 2 semaines de tracking sérieux ton poids ne bouge pas → ton déficit n'est pas réel. Il faut ajuster, pas s'en satisfaire.</div>
+      <div class="step-tag">Indicateur de progression</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SUITE -->
+<div style="background-color: #0a0a0a;">
+  <div class="next-section reveal">
+    <div class="next-icon">→</div>
+    <h2 class="next-title">La suite — <em>mardi 21h</em></h2>
+    <p class="next-body">Ce plan pose les bases et les actions immédiates. Mardi, on rentre dans le concret : recalibrer ta diète sur ta réalité actuelle, construire une structure d'entraînement faite pour ta sèche, et trouver une forme de cardio que tu peux vraiment tenir.</p>
+
+    <div class="next-box">
+      <strong style="color: var(--gold2); font-size: 13px; letter-spacing: 0.05em; display: block; margin-bottom: 12px;">Ce que tu prépares pour mardi</strong>
+      Si possible : note approximativement ce que tu manges d'ici là — pas besoin que ce soit parfait. Et si tu as le total calorique approximatif de ta diète actuelle, c'est encore mieux. Ça me permettra de partir directement sur du concret plutôt que de reconstruire de zéro pendant l'appel.
+    </div>
+  </div>
+</div>
+
+<footer>
+  Plan élaboré sur la base de l'échange du 22 mars 2025 · Brandon · Document confidentiel
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
